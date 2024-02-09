@@ -118,7 +118,7 @@ at the top of this file. */
 
 /*-----------------------------------------------------------*/
 
-.align 8
+.org 0x80
 .func
 freertos_risc_v_trap_handler:
 	addi sp, sp, -portCONTEXT_SIZE
@@ -305,7 +305,7 @@ processed_source:
 /*-----------------------------------------------------------*/
 
 /* for timer interrupt vectored context switches */
-.align 8
+.org 0x280
 .func
 freertos_risc_v_ctxt_handler:
 	addi sp, sp, -portCONTEXT_SIZE
@@ -411,7 +411,7 @@ freertos_risc_v_ctxt_handler:
 /*-----------------------------------------------------------*/
 
 
-.align 8
+.org 0x480
 .func
 xPortStartFirstTask:
 
@@ -532,7 +532,7 @@ xPortStartFirstTask:
  * [chip specific registers go here]
  * pxCode
  */
-.align 8
+.org 0x580
 .func
 pxPortInitialiseStack:
 

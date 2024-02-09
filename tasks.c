@@ -771,16 +771,18 @@ static void prvAddNewTaskToReadyList( TCB_t *pxNewTCB ) PRIVILEGED_FUNCTION;
 
 			/* Allocate space for the stack used by the task being created. */
 			pxStack = pvPortMalloc( ( ( ( size_t ) usStackDepth ) * sizeof( StackType_t ) ) ); /*lint !e9079 All values returned by pvPortMalloc() have at least the alignment required by the MCU's stack and this allocation is the stack. */
-
+			//printf("first malloc size: 0x%x\r\n", ( ( ( size_t ) usStackDepth ) * sizeof( StackType_t ) ));
 			if( pxStack != NULL )
 			{
 				/* Allocate space for the TCB. */
 				pxNewTCB = ( TCB_t * ) pvPortMalloc( sizeof( TCB_t ) ); /*lint !e9087 !e9079 All values returned by pvPortMalloc() have at least the alignment required by the MCU's stack, and the first member of TCB_t is always a pointer to the task's stack. */
-
+				//printf("second malloc size: 0x%x\r\n", sizeof( TCB_t ));
 				if( pxNewTCB != NULL )
 				{
 					/* Store the stack location in the TCB. */
 					pxNewTCB->pxStack = pxStack;
+					//printf("pxStack: 0x%x, pxNewTCB: 0x%x\r\n", pxStack, pxNewTCB);
+					//printf("usStackDepth: 0x%x, stacksize: 0x%x\r\n", usStackDepth, usStackDepth * sizeof(StackType_t));
 				}
 				else
 				{

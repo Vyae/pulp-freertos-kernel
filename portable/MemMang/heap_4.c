@@ -312,6 +312,35 @@ BlockLink_t *pxLink;
 }
 /*-----------------------------------------------------------*/
 
+void *pvPortRealloc(void *pv, size_t xWantedSize)
+{
+	BlockLink_t *pxLink = NULL;
+	void *new_block = NULL;
+	size_t old_size  = 0;
+	size_t copy_size = 0;
+
+	if(pv){
+		// Why not just call free...
+		if(!xWantedSize){
+			vPortFree(pv);
+		} else {
+			pxLink = (BlockLink_t *) (pv - xHeapStructSize);
+			old_size = pxLink->xBlockSize;
+			// Copy the whole previous buffer, but only if it fits
+			copy_size = (xWantedSize >= old_size) ? old_size : xWantedSize;
+
+			new_block = pvPortMalloc(xWantedSize);
+			if(new_block){
+				memcpy(new_block, pv, copy_size);
+				vPortFree(pv);
+			}
+		}
+	}
+
+	return new_block;
+}
+/*-----------------------------------------------------------*/
+
 size_t xPortGetFreeHeapSize( void )
 {
 	return xFreeBytesRemaining;
